@@ -11,7 +11,8 @@ services:
       MYSQL_PASSWORD: admin
       MYSQL_DB: myDb
     depends_on:
-      - mysql
+      mysql:
+        condition: service_healthy
 
   mysql:
     image: mysql:5.7
@@ -22,6 +23,11 @@ services:
       MYSQL_USER: admin
       MYSQL_PASSWORD: admin
       MYSQL_ROOT_PASSWORD: admin
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uadmin", "-padmin"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     volumes:
       - ./message.sql:/docker-entrypoint-initdb.d/message.sql
       - mysql-data:/var/lib/mysql
