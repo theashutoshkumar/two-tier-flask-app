@@ -1,31 +1,37 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: two-tier-app
+  name:  flask-app
+  namespace: default
   labels:
-    app: two-tier-app
+    app:  flask-app
 spec:
-  replicas: 1
   selector:
     matchLabels:
-      app: two-tier-app
+      app: flask-app
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
   template:
     metadata:
       labels:
-        app: two-tier-app
+        app:  flask-app
     spec:
       containers:
-        - name: two-tier-app
-          image: trainwithshubham/flaskapp:latest
-          env:
-            - name: MYSQL_HOST
-              value: "10.98.19.211"          # this is your mysql's service clusture IP, Make sure to change it with yours
-            - name: MYSQL_PASSWORD
-              value: "admin"
-            - name: MYSQL_USER
-              value: "root"
-            - name: MYSQL_DB
-              value: "mydb"
-          ports:
-            - containerPort: 5000
-          imagePullPolicy: Always
+      - name:  flask-app-container
+        image:  ashutoshkumarmahanta/flask-app:latest
+        env:
+          - name: MYSQL_HOST
+            value: "mysql"  #this is mysql service cluster IP address
+          - name: MYSQL_USER
+            value: "admin"
+          - name: MYSQL_PASSWORD
+            value: "admin"
+          - name: MYSQL_DB
+            value: "myDb"
+        ports:
+        - containerPort: 5000
+      imagePullPolicy: Always
