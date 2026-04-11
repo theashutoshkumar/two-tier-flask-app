@@ -25,7 +25,7 @@ spec:
         image:  ashutoshkumarmahanta/flask-app:latest
         env:
           - name: MYSQL_HOST
-            value: "mysql"  #this is mysql service cluster IP address
+            value: "10.111.209.233"  #this is mysql service cluster IP address
           - name: MYSQL_USER
             value: "admin"
           - name: MYSQL_PASSWORD
