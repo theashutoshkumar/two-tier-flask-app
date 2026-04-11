@@ -2,12 +2,14 @@ apiVersion: v1
 kind: PersistentVolume
 metadata:
   name: mysql-pv
-spec:
+  spec:
   capacity:
     storage: 256Mi
   volumeMode: Filesystem
-  accessModes:
+  accessModes:  
     - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
   hostPath:
-    path: /home/ubuntu/two-tier-flask-app/mysqldata        #This is your host path where your data will be stored. Make sure to create mysqldata directory in mentioned path
+    path: /home/ubuntu/two-tier-flask-app/mysql-data 
+    #this is the path on the node where mysql data will be stored. You can change it as per your requirement. Make sure that this path exists on the node and has proper permissions.
+    
