@@ -1,21 +1,22 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: two-tier-app-pod
+  name: flask-app
+  labels:
+    app: flask-app
 spec:
-  containers:
-  - name: two-tier-app-pod
-    image: trainwithshubham/flaskapp:latest
+  containers: 
+  - name: flask-app
+    image: ashutoshkumarmahanta/flask-app:latest
     env:
       - name: MYSQL_HOST
-        value: "10.98.19.211"          # this is your mysql's service clusture IP, Make sure to change it with yours
+        value: "mysql"  #this is mysql service cluster IP address
+      - name: MYSQL_USER
+        value: "admin"
       - name: MYSQL_PASSWORD
         value: "admin"
-      - name: MYSQL_USER
-        value: "root"
       - name: MYSQL_DB
-        value: "mydb"
+        value: "myDb"
     ports:
-      - containerPort: 5000
+    - containerPort: 5000
     imagePullPolicy: Always
-    
